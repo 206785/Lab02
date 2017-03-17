@@ -8,6 +8,7 @@ package it.polito.tdp.alien;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AlienController {
+	
+	
+	AlienDictionary dictionary = new AlienDictionary();
 	
     @FXML
     private ResourceBundle resources;
@@ -43,13 +47,68 @@ public class AlienController {
     
     @FXML
     void doTranslate(ActionEvent event) {
-    	    	
+        
+    	
+    	String testo = txtWord.getText().toLowerCase();
+    	
+    	if ( testo == null || testo.compareTo("") == 0) {
+			txtResult.setText("Inserire una o due parole.");
+			return;
+		}
+    	
+    	StringTokenizer st = new StringTokenizer(testo, " ");
+    	
+    	if (!st.hasMoreElements()) {
+			txtResult.setText("Inserire una o due parole.");
+			return;
+		}
+    	
+    	String alienWord = st.nextToken();
+    	
+    	if (st.hasMoreTokens()){
+    		String translation = st.nextToken();
+    		
+    		if(!st.hasMoreTokens()){
+    		
+    		if (!alienWord.matches("[a-zA-Z]*") || !translation.matches("[a-zA-Z]*")) {
+				txtResult.setText("Inserire solo caratteri alfabetici.");
+				return;
+			}
+    		dictionary.addWord(alienWord, translation);
+    		txtResult.setText("La parola è stata inserita:   " + alienWord + "\nLa sua traduzione:   " + translation  );
+    		
+    		} else txtResult.setText("Inserire massimo due parole.");
+    	
+    	} else {
+    		
+    		if (!alienWord.matches("[a-zA-Z?]*")) {
+				txtResult.setText("Inserire solo caratteri alfabetici.");
+				return;
+			}
+    		
+    		String translation1 = dictionary.translateWord(alienWord);
+    		
+    		if (translation1 != null) {
+				txtResult.setText(dictionary.translateWord(alienWord));
+			} else {
+				txtResult.setText("La parola cercata non esiste nel dizionario.");
+			}
+    		
+    		
+    	}
+    	
+    	txtWord.clear();
     }
+    
+    
     
     
     @FXML
     void doReset(ActionEvent event) {
 
+    	txtWord.clear();
+		txtResult.clear();
+		
     }
     
 }
