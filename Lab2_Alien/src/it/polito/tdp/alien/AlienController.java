@@ -86,10 +86,21 @@ public class AlienController {
 				return;
 			}
     		
-    		String translation1 = dictionary.translateWord(alienWord);
+    		String translation;
     		
-    		if (translation1 != null) {
-				txtResult.setText(dictionary.translateWord(alienWord));
+    		
+    		if(alienWord.matches("[a-zA-Z?]*") && !alienWord.matches("[a-zA-Z]*")){
+    			
+    			translation = dictionary.translateWordWildCard(alienWord);
+    		} else {
+    			
+    			translation = dictionary.translateWord(alienWord);
+    		}
+    		
+    		
+    		
+    		if (translation != null) {
+				txtResult.setText(translation);
 			} else {
 				txtResult.setText("La parola cercata non esiste nel dizionario.");
 			}

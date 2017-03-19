@@ -13,7 +13,7 @@ public class WordEnhanced extends Word{
 		translations.add(translation);
 	}
 
-
+    
 	
 	
 
@@ -48,7 +48,7 @@ public class WordEnhanced extends Word{
 	@Override
 	public void setTranslation(String translation) {
 		
-		if (translations.contains(translation))
+		if (!translations.contains(translation))
 			translations.add(translation);
 	}
 
@@ -56,7 +56,19 @@ public class WordEnhanced extends Word{
 	public String compare(String parolaPassata) {
 		if (alienWord.compareTo(parolaPassata) == 0)
 			return parolaPassata;
-		return null;
+		
+		else return null;
 	}
-	
+
+
+
+
+
+	public boolean compareWild(String alienWildCard) {
+		if (alienWord.matches(alienWildCard))
+		return true;
+	 
+		else 
+			return false;
+	}
 }
